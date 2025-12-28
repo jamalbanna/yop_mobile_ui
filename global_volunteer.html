@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Global Volunteer</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    background: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .header {
+    background-color: #037EF3;
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .header img {
+    height: 40px;
+    width: auto;
+  }
+
+  .back-button {
+    background-color: #fff;
+    color: #037EF3;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  .back-button:hover {
+    background-color: #f0f0f0;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .page-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #F85A40;
+  }
+
+  .filters-section {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+  }
+
+  .filters-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 15px;
+  }
+
+  .filters-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .toggle-icon {
+    font-size: 20px;
+    transition: transform 0.3s;
+    color: #F85A40;
+  }
+
+  .toggle-icon.collapsed {
+    transform: rotate(-90deg);
+  }
+
+  .filters-content {
+    max-height: 1000px;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+  }
+
+  .filters-content.collapsed {
+    max-height: 0;
+  }
+
+  .filter-group {
+    margin-bottom: 20px;
+  }
+
+  .filter-label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #555;
+    font-size: 14px;
+  }
+
+  input[type="date"] {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 200px;
+  }
+
+  select {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 250px;
+    background-color: #fff;
+    cursor: pointer;
+  }
+
+  select:focus {
+    outline: none;
+    border-color: #037EF3;
+    box-shadow: 0 0 5px rgba(3, 126, 243, 0.3);
+  }
+
+  .opportunities-section {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .opportunities-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  .opportunities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+  }
+
+  .opportunity-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .opportunity-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  }
+
+  .card-image {
+    width: 100%;
+    height: 180px;
+    background: linear-gradient(135deg, #F85A40 0%, #d64830 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .card-content {
+    padding: 15px;
+  }
+
+  .card-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+  }
+
+  .card-details {
+    font-size: 12px;
+    color: #777;
+    margin-bottom: 4px;
+    line-height: 1.5;
+  }
+
+  .card-footer {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .card-region {
+    font-size: 11px;
+    background: #F85A40;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+
+  .apply-btn {
+    background-color: #F85A40;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  .apply-btn:hover {
+    background-color: #d64830;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <img src="aiesec_logo.png" alt="AIESEC Logo">
+  <button class="back-button" onclick="window.location.href='mobile_app.html'">← Back</button>
+</div>
+
+<div class="container">
+  <div class="page-title">Global Volunteer</div>
+
+  <div class="filters-section">
+    <div class="filters-header" onclick="toggleFilters()">
+      <div class="filters-title">Filter Opportunities</div>
+      <div class="toggle-icon" id="toggleIcon">▼</div>
+    </div>
+
+    <div class="filters-content" id="filtersContent">
+    <div class="filter-group">
+      <label class="filter-label">Start Date</label>
+      <input type="date" id="start_date">
+    </div>
+
+    <div class="filter-group">
+      <label class="filter-label">Region</label>
+      <select id="region_select">
+        <option value="all">All Regions</option>
+        <option value="americas">Americas</option>
+        <option value="mea">Middle East & Africa</option>
+        <option value="apac">Asia Pacific</option>
+        <option value="europe">Europe</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label class="filter-label">Sustainable Development Goals (SDG)</label>
+      <select id="sdg_select">
+        <option value="">All SDGs</option>
+        <option value="sdg1">1. No Poverty</option>
+        <option value="sdg2">2. Zero Hunger</option>
+        <option value="sdg3">3. Good Health and Well-being</option>
+        <option value="sdg4">4. Quality Education</option>
+        <option value="sdg5">5. Gender Equality</option>
+        <option value="sdg6">6. Clean Water and Sanitation</option>
+        <option value="sdg7">7. Affordable and Clean Energy</option>
+        <option value="sdg8">8. Decent Work and Economic Growth</option>
+        <option value="sdg9">9. Industry, Innovation and Infrastructure</option>
+        <option value="sdg10">10. Reduced Inequalities</option>
+        <option value="sdg11">11. Sustainable Cities and Communities</option>
+        <option value="sdg12">12. Responsible Consumption and Production</option>
+        <option value="sdg13">13. Climate Action</option>
+        <option value="sdg14">14. Life Below Water</option>
+        <option value="sdg15">15. Life on Land</option>
+        <option value="sdg16">16. Peace, Justice and Strong Institutions</option>
+        <option value="sdg17">17. Partnerships for the Goals</option>
+      </select>
+    </div>
+    </div>
+  </div>
+
+  <div class="opportunities-section">
+    <div class="opportunities-title">Available Opportunities</div>
+    <div class="opportunities-grid" id="opportunities">
+      <!-- Opportunity cards will be generated here -->
+    </div>
+  </div>
+</div>
+
+<script>
+  function toggleFilters() {
+    const content = document.getElementById('filtersContent');
+    const icon = document.getElementById('toggleIcon');
+    
+    content.classList.toggle('collapsed');
+    icon.classList.toggle('collapsed');
+  }
+
+  // Sample opportunities data
+  const opportunities = [
+    {
+      id: 1,
+      title: "Community Development Volunteer",
+      organization: "Local NGO",
+      region: "Americas",
+      sdg: "No Poverty",
+      startDate: "2025-02-01",
+      duration: "6 weeks"
+    },
+    {
+      id: 2,
+      title: "Education Support Volunteer",
+      organization: "Teaching Together",
+      region: "Asia Pacific",
+      sdg: "Quality Education",
+      startDate: "2025-03-01",
+      duration: "8 weeks"
+    },
+    {
+      id: 3,
+      title: "Environmental Conservation Project",
+      organization: "Green Earth",
+      region: "Europe",
+      sdg: "Climate Action",
+      startDate: "2025-02-15",
+      duration: "10 weeks"
+    },
+    {
+      id: 4,
+      title: "Healthcare Support Volunteer",
+      organization: "Health for All",
+      region: "Middle East & Africa",
+      sdg: "Good Health and Well-being",
+      startDate: "2025-01-15",
+      duration: "12 weeks"
+    },
+    {
+      id: 5,
+      title: "Women's Empowerment Initiative",
+      organization: "Equal Rights Foundation",
+      region: "Americas",
+      sdg: "Gender Equality",
+      startDate: "2025-03-15",
+      duration: "6 weeks"
+    },
+    {
+      id: 6,
+      title: "Clean Water Project",
+      organization: "Water for Life",
+      region: "Middle East & Africa",
+      sdg: "Clean Water and Sanitation",
+      startDate: "2025-02-01",
+      duration: "8 weeks"
+    }
+  ];
+
+  // Render opportunities
+  function renderOpportunities() {
+    const container = document.getElementById('opportunities');
+    container.innerHTML = '';
+    
+    opportunities.forEach(opp => {
+      const card = document.createElement('div');
+      card.className = 'opportunity-card';
+      card.innerHTML = `
+        <div class="card-image">${opp.organization}</div>
+        <div class="card-content">
+          <div class="card-title">${opp.title}</div>
+          <div class="card-details">📍 ${opp.region}</div>
+          <div class="card-details">🎯 SDG: ${opp.sdg}</div>
+          <div class="card-details">📅 Start: ${new Date(opp.startDate).toLocaleDateString()}</div>
+          <div class="card-details">⏱️ Duration: ${opp.duration}</div>
+          <div class="card-footer">
+            <span class="card-region">${opp.sdg.toUpperCase()}</span>
+            <button class="apply-btn" onclick="applyForOpportunity(${opp.id})">Apply</button>
+          </div>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  function applyForOpportunity(id) {
+    alert(`Applied for opportunity #${id}`);
+    // Add your application logic here
+  }
+
+  // Initialize
+  renderOpportunities();
+</script>
+
+</body>
+</html>

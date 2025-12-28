@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Global Teacher</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    background: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .header {
+    background-color: #037EF3;
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .header img {
+    height: 40px;
+    width: auto;
+  }
+
+  .back-button {
+    background-color: #fff;
+    color: #037EF3;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  .back-button:hover {
+    background-color: #f0f0f0;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .page-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #F48924;
+  }
+
+  .filters-section {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+  }
+
+  .filters-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 15px;
+  }
+
+  .filters-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .toggle-icon {
+    font-size: 20px;
+    transition: transform 0.3s;
+    color: #F48924;
+  }
+
+  .toggle-icon.collapsed {
+    transform: rotate(-90deg);
+  }
+
+  .filters-content {
+    max-height: 1000px;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+  }
+
+  .filters-content.collapsed {
+    max-height: 0;
+  }
+
+  .filter-group {
+    margin-bottom: 20px;
+  }
+
+  .filter-label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #555;
+    font-size: 14px;
+  }
+
+  .filter-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  input[type="date"] {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 200px;
+  }
+
+  select {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 250px;
+    background-color: #fff;
+    cursor: pointer;
+  }
+
+  select:focus {
+    outline: none;
+    border-color: #F48924;
+    box-shadow: 0 0 5px rgba(244, 137, 36, 0.3);
+  }
+
+  .opportunities-section {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .opportunities-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  .opportunities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+  }
+
+  .opportunity-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .opportunity-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  }
+
+  .card-image {
+    width: 100%;
+    height: 180px;
+    background: linear-gradient(135deg, #F48924 0%, #d67520 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .card-content {
+    padding: 15px;
+  }
+
+  .card-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+  }
+
+  .card-details {
+    font-size: 12px;
+    color: #777;
+    margin-bottom: 4px;
+    line-height: 1.5;
+  }
+
+  .card-footer {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .card-region {
+    font-size: 11px;
+    background: #F48924;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+
+  .apply-btn {
+    background-color: #F48924;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  .apply-btn:hover {
+    background-color: #d67520;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <img src="aiesec_logo.png" alt="AIESEC Logo">
+  <button class="back-button" onclick="window.location.href='mobile_app.html'">← Back</button>
+</div>
+
+<div class="container">
+  <div class="page-title">Global Teacher</div>
+
+  <div class="filters-section">
+    <div class="filters-header" onclick="toggleFilters()">
+      <div class="filters-title">Filter Opportunities</div>
+      <div class="toggle-icon" id="toggleIcon">▼</div>
+    </div>
+
+    <div class="filters-content" id="filtersContent">
+    <div class="filter-group">
+      <label class="filter-label">Start Date</label>
+      <input type="date" id="start_date">
+    </div>
+
+    <div class="filter-group">
+      <label class="filter-label">Region</label>
+      <select id="region_select">
+        <option value="all">All Regions</option>
+        <option value="americas">Americas</option>
+        <option value="mea">Middle East & Africa</option>
+        <option value="apac">Asia Pacific</option>
+        <option value="europe">Europe</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label class="filter-label">Duration</label>
+      <select id="duration_select">
+        <option value="">Any Duration</option>
+        <option value="6-12weeks">6-12 Weeks</option>
+        <option value="3-6months">3-6 Months</option>
+        <option value="6-18months">6-18 Months</option>
+      </select>
+    </div>
+    </div>
+  </div>
+
+  <div class="opportunities-section">
+    <div class="opportunities-title">Available Opportunities</div>
+    <div class="opportunities-grid" id="opportunities">
+      <!-- Opportunity cards will be generated here -->
+    </div>
+  </div>
+</div>
+
+<script>
+  function toggleFilters() {
+    const content = document.getElementById('filtersContent');
+    const icon = document.getElementById('toggleIcon');
+    
+    content.classList.toggle('collapsed');
+    icon.classList.toggle('collapsed');
+  }
+
+  // Sample opportunities data
+  const opportunities = [
+    {
+      id: 1,
+      title: "English Language Teacher",
+      organization: "Language Academy",
+      region: "Americas",
+      startDate: "2025-02-01",
+      duration: "3 months"
+    },
+    {
+      id: 2,
+      title: "Math & Science Teacher",
+      organization: "International School",
+      region: "Europe",
+      startDate: "2025-03-01",
+      duration: "6 months"
+    },
+    {
+      id: 3,
+      title: "Elementary School Teacher",
+      organization: "Community School",
+      region: "Asia Pacific",
+      startDate: "2025-02-15",
+      duration: "4 months"
+    },
+    {
+      id: 4,
+      title: "STEM Education Specialist",
+      organization: "Tech Education Center",
+      region: "Americas",
+      startDate: "2025-01-15",
+      duration: "6 months"
+    },
+    {
+      id: 5,
+      title: "ESL Teacher for Adults",
+      organization: "Language Institute",
+      region: "Europe",
+      startDate: "2025-03-15",
+      duration: "3 months"
+    },
+    {
+      id: 6,
+      title: "Music & Arts Teacher",
+      organization: "Creative Learning Center",
+      region: "Middle East & Africa",
+      startDate: "2025-02-01",
+      duration: "5 months"
+    }
+  ];
+
+  // Render opportunities
+  function renderOpportunities() {
+    const container = document.getElementById('opportunities');
+    container.innerHTML = '';
+    
+    opportunities.forEach(opp => {
+      const card = document.createElement('div');
+      card.className = 'opportunity-card';
+      card.innerHTML = `
+        <div class="card-image">${opp.organization}</div>
+        <div class="card-content">
+          <div class="card-title">${opp.title}</div>
+          <div class="card-details">📍 ${opp.region}</div>
+          <div class="card-details">📅 Start: ${new Date(opp.startDate).toLocaleDateString()}</div>
+          <div class="card-details">⏱️ Duration: ${opp.duration}</div>
+          <div class="card-footer">
+            <span class="card-region">TEACHING</span>
+            <button class="apply-btn" onclick="applyForOpportunity(${opp.id})">Apply</button>
+          </div>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  function applyForOpportunity(id) {
+    alert(`Applied for opportunity #${id}`);
+    // Add your application logic here
+  }
+
+  // Initialize
+  renderOpportunities();
+</script>
+
+</body>
+</html>
