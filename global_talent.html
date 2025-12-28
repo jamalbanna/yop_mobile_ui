@@ -165,8 +165,8 @@
 
   select:focus {
     outline: none;
-    border-color: #037EF3;
-    box-shadow: 0 0 5px rgba(3, 126, 243, 0.3);
+    border-color: #0CB9C1;
+    box-shadow: 0 0 5px rgba(12, 185, 193, 0.3);
   }
 
   .opportunities-section {
@@ -283,45 +283,31 @@
 
     <div class="filters-content" id="filtersContent">
 
-    <div class="filter-group">
-      <label class="filter-label">Field of Study</label>
-      <select id="field_select">
-        <option value="">Select a field...</option>
-        <option value="business_admin">Business Administration</option>
-        <option value="it">IT</option>
-        <option value="marketing">Marketing</option>
-        <option value="engineering">Engineering</option>
-        <option value="finance">Finance</option>
-        <option value="business_dev">Business Development</option>
-        <option value="other">Other</option>
-      </select>
-    </div>
+      <div class="filter-group">
+        <label class="filter-label">Start Date</label>
+        <input type="date" id="start_date">
+      </div>
 
-    <div class="filter-group">
-      <label class="filter-label">Start Date</label>
-      <input type="date" id="start_date">
-    </div>
+      <div class="filter-group">
+        <label class="filter-label">Region</label>
+        <select id="region_select">
+          <option value="all">All Regions</option>
+          <option value="Americas">Americas</option>
+          <option value="Middle East & Africa">Middle East & Africa</option>
+          <option value="Asia Pacific">Asia Pacific</option>
+          <option value="Europe">Europe</option>
+        </select>
+      </div>
 
-    <div class="filter-group">
-      <label class="filter-label">Region</label>
-      <select id="region_select">
-        <option value="all">All Regions</option>
-        <option value="americas">Americas</option>
-        <option value="mea">Middle East & Africa</option>
-        <option value="apac">Asia Pacific</option>
-        <option value="europe">Europe</option>
-      </select>
-    </div>
-
-    <div class="filter-group">
-      <label class="filter-label">Duration</label>
-      <select id="duration_select">
-        <option value="">Any Duration</option>
-        <option value="6-12weeks">6-12 Weeks</option>
-        <option value="3-6months">3-6 Months</option>
-        <option value="6-18months">6-18 Months</option>
-      </select>
-    </div>
+      <div class="filter-group">
+        <label class="filter-label">Duration</label>
+        <select id="duration_select">
+          <option value="">Any Duration</option>
+          <option value="3 months">6 - 12 Weeks</option>
+          <option value="4 months">3 - 6 Months</option>
+          <option value="5 months">6 - 18 Months</option>
+        </select>
+      </div>
     </div>
   </div>
 
