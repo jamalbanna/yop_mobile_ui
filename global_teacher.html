@@ -269,26 +269,27 @@
       <input type="date" id="start_date">
     </div>
 
-    <div class="filter-group">
-      <label class="filter-label">Region</label>
-      <select id="region_select">
-        <option value="all">All Regions</option>
-        <option value="americas">Americas</option>
-        <option value="mea">Middle East & Africa</option>
-        <option value="apac">Asia Pacific</option>
-        <option value="europe">Europe</option>
-      </select>
-    </div>
+      <div class="filter-group">
+        <label class="filter-label">Region</label>
+        <select id="region_select">
+          <option value="all">All Regions</option>
+          <option value="Americas">Americas</option>
+          <option value="Middle East & Africa">Middle East & Africa</option>
+          <option value="Asia Pacific">Asia Pacific</option>
+          <option value="Europe">Europe</option>
+        </select>
+      </div>
 
-    <div class="filter-group">
-      <label class="filter-label">Duration</label>
-      <select id="duration_select">
-        <option value="">Any Duration</option>
-        <option value="6-12weeks">6-12 Weeks</option>
-        <option value="3-6months">3-6 Months</option>
-        <option value="6-18months">6-18 Months</option>
-      </select>
-    </div>
+      <div class="filter-group">
+        <label class="filter-label">Duration</label>
+        <select id="duration_select">
+          <option value="">Any Duration</option>
+          <option value="3 months">3 months</option>
+          <option value="4 months">4 months</option>
+          <option value="5 months">5 months</option>
+          <option value="6 months">6 months</option>
+        </select>
+      </div>
     </div>
   </div>
 
@@ -361,35 +362,64 @@
     }
   ];
 
-  // Render opportunities
-  function renderOpportunities() {
-    const container = document.getElementById('opportunities');
-    container.innerHTML = '';
-    
-    opportunities.forEach(opp => {
-      const card = document.createElement('div');
-      card.className = 'opportunity-card';
-      card.innerHTML = `
-        <div class="card-image">${opp.organization}</div>
-        <div class="card-content">
-          <div class="card-title">${opp.title}</div>
-          <div class="card-details">📍 ${opp.region}</div>
-          <div class="card-details">📅 Start: ${new Date(opp.startDate).toLocaleDateString()}</div>
-          <div class="card-details">⏱️ Duration: ${opp.duration}</div>
-          <div class="card-footer">
-            <span class="card-region">TEACHING</span>
-            <button class="apply-btn" onclick="applyForOpportunity(${opp.id})">Apply</button>
+    function getFilters() {
+      return {
+        startDate: document.getElementById('start_date').value,
+        region: document.getElementById('region_select').value,
+        duration: document.getElementById('duration_select').value
+      };
+    }
+
+    function renderOpportunities(list = opportunities) {
+      const container = document.getElementById('opportunities');
+      container.innerHTML = '';
+
+      if (!list.length) {
+        container.innerHTML = '<div class="card-details">No opportunities match your filters.</div>';
+        return;
+      }
+
+      list.forEach(opp => {
+        const card = document.createElement('div');
+        card.className = 'opportunity-card';
+        card.innerHTML = `
+          <div class="card-image">${opp.organization}</div>
+          <div class="card-content">
+            <div class="card-title">${opp.title}</div>
+            <div class="card-details">📍 ${opp.region}</div>
+            <div class="card-details">📅 Start: ${new Date(opp.startDate).toLocaleDateString()}</div>
+            <div class="card-details">⏱️ Duration: ${opp.duration}</div>
+            <div class="card-footer">
+              <span class="card-region">TEACHING</span>
+              <button class="apply-btn" onclick="applyForOpportunity(${opp.id})">Apply</button>
+            </div>
           </div>
-        </div>
-      `;
-      container.appendChild(card);
-    });
-  }
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function applyFilters() {
+      const { startDate, region, duration } = getFilters();
+
+      const filtered = opportunities.filter(opp => {
+        const startsAfter = startDate ? new Date(opp.startDate) >= new Date(startDate) : true;
+        const regionMatches = region === 'all' ? true : opp.region === region;
+        const durationMatches = duration ? opp.duration === duration : true;
+        return startsAfter && regionMatches && durationMatches;
+      });
+
+      renderOpportunities(filtered);
+    }
 
   function applyForOpportunity(id) {
     alert(`Applied for opportunity #${id}`);
     // Add your application logic here
   }
+
+  document.getElementById('start_date').addEventListener('change', applyFilters);
+  document.getElementById('region_select').addEventListener('change', applyFilters);
+  document.getElementById('duration_select').addEventListener('change', applyFilters);
 
   // Initialize
   renderOpportunities();
